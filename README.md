@@ -3,6 +3,7 @@ Microservice pong
 
 # API
 
+```
 GET
 /game/ball_pos
 output:"
@@ -31,4 +32,4 @@ output:
 		...
 	]
 }
-
+```
