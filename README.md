@@ -9,7 +9,7 @@ GET
 output:"
 {"x": int, "y": int}
 
-POST
+GET/POST
 /game/player_pos
 input:
 {"id": int, "dir": "string"}

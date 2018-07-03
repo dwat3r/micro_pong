@@ -1,6 +1,6 @@
 package server
 
-import akka.actor.ActorSystem
+import akka.actor.{ActorSystem, Props}
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import akka.http.scaladsl.model.{DateTime => _, _}
@@ -20,16 +20,12 @@ object Main extends App {
   // needed for the future flatMap/onComplete in the end
   implicit val executionContext: ExecutionContextExecutor = system.dispatcher
 
-  val route =
-    path("resolve") {
-      post {
-        complete {
-          "undefined"
-        }
-      }
-    }
+  //val pinger = system.actorOf(Props[Pinger], "pinger")
+  val logic = system.actorOf(Props(new Logic), "logic")
 
-  val bindingFuture = Http().bindAndHandle(route, "localhost", 8080)
+  val interface = new Interface()
+
+  val bindingFuture = Http().bindAndHandle(interface.route, "localhost", 8080)
 
   println(s"Server online at http://localhost:8080/\nPress RETURN to stop...")
   StdIn.readLine() // let it run until user presses return

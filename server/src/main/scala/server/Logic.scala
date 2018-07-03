@@ -31,10 +31,10 @@ case object Down extends Direction
 
 case class PlayerMove(id : Int, dir : Direction)
 
-class Logic extends Actor {
+class Logic(
+             implicit var screen_size : Pos = Pos(200,100),
+             var ball : Ball = Ball(Pos(0,0))) extends Actor {
 
-  implicit var screen_size : Pos = Pos(200,100)
-  var ball : Ball = Ball(Pos(0,0))
   var players : (Player, Player) = (new Player(0, Pos(0,50)), new Player(1, Pos(200, 50)))
 
   val log = Logging(context.system, this)
