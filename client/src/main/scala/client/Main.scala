@@ -18,12 +18,19 @@ object Main extends App {
   implicit val executionContext = system.dispatcher
 
   val ip = "192.168.1.182:8000"
+  //val ip = "localhost:8000"
+  //val responseFuture: Future[HttpResponse] = Http().singleRequest(HttpRequest(uri = s"http://$ip/gt/"))
 
-  val responseFuture: Future[HttpResponse] = Http().singleRequest(HttpRequest(uri = s"http://$ip/get-pos"))
+  def getGameTime() : Future[HttpResponse] = {
+    Http().singleRequest(HttpRequest(uri = s"http://$ip/gt/")).flatMap{x : HttpResponse => println(x);Thread.sleep(100);getGameTime()}
 
-  responseFuture
-    .onComplete {
-      case Success(res) => println(res)
-      case Failure(ex)   => sys.error(s"something wrong $ex")
-    }
+  }
+  getGameTime()
+//  responseFuture.map{ x =>
+//    println(x)
+//    responseFuture}
+////    .onComplete {
+////      case Success(res) => println(res)
+////      case Failure(ex)   => sys.error(s"something wrong $ex")
+////    }
 }
